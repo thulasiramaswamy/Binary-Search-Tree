@@ -1,4 +1,4 @@
-// C program to demonstrate insert operation in binary search tree.
+// C program to demonstrate insert operation in binary search tree using recursion.
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -9,10 +9,10 @@ struct node
 };
 
 // A utility function to create a new BST node
-struct node *newNode(int item)
+struct node *newNode(int value)
 {
  struct node *temp = (struct node *)malloc(sizeof(struct node));
- temp->key = item;
+ temp->key = value;
  temp->left = temp->right = NULL;
  return temp;
 }
