@@ -1,21 +1,21 @@
-// C Program to demonstrate a Binary Search Tree and selected operations on it
-// Size of a BST
+// Size of a tree
 // Traversals - Inorder, Preorder, Postorder
 // Minimum value, Maximum Value of a BST
 // Search an element in a BST
-// Maximum Depth of a BST
-// Search a key in a BST
+// Maximum depth of a BST
+
 
 #include <stdio.h>
 #include <stdlib.h>
 
+// Tree Node Structure
 struct Node
 {
 	struct Node* left;
 	int dat;
 	struct Node* right;
 };
-
+// Creates and returns a New Node
 struct Node* newNode(int value)
 {
 	struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
@@ -24,20 +24,53 @@ struct Node* newNode(int value)
 	temp->right = NULL;
 	return temp;
 }
-
-void insertNode(struct Node** root, int value)
+// Insertion - Iterative way
+void insertNodeIter(struct Node**root, int val)
+{
+	struct Node *newnode = newNode(val);
+	struct Node *ptr;
+	if (*root == NULL)
+		*root = newnode;
+	else
+	{
+		ptr = *root;
+		while (true)
+		{
+			if (ptr->dat > newnode->dat)
+			{
+				if (ptr->left == NULL)
+				{
+					ptr->left = newnode;					
+					break;
+				}
+				ptr = ptr->left;
+			}
+			else
+			{
+				if (ptr->right == NULL)
+				{
+					ptr->right = newnode;					
+					break;
+				}
+				ptr = ptr->right;
+			}
+		}
+	}
+}
+// Insertion - Recursive Way
+void insertNodeRecur(struct Node** root, int value)
 {
 	if (*root == NULL)
 	{
-		*root = newNode(value);
-		printf("\n Inserted node : %d ", value);
+		*root = newNode(value);		
 		return;
 	}
 	else if ((*root)->dat > value)
-		insertNode( (&(*root)->left), value);
+		insertNodeRecur( (&(*root)->left), value);
 	else
-		insertNode((&(*root)->right), value);
+		insertNodeRecur((&(*root)->right), value);
 }
+// Calculates the size of a BST and returns
 int getSize(struct Node* root)
 {
 	if (root == NULL) return 0;
@@ -74,6 +107,7 @@ void PostOrderTraversal(struct Node* root)
 		printf(" %d ", root->dat);
 	}	
 }
+// returns minimum element from the tree
 int getMin(struct Node* root)
 {
 	struct Node* temp = root;
@@ -94,6 +128,7 @@ int getMinRecur(struct Node* root)
 			return root->dat;
 	}
 }
+// returns maximum element from the tree
 int getMax(struct Node* root)
 {
 	struct Node* temp = root;
@@ -104,7 +139,6 @@ int getMax(struct Node* root)
 	}
 	return temp->dat;
 }
-
 int getMaxRecur(struct Node* root)
 {
 	if (root != NULL)
@@ -115,7 +149,6 @@ int getMaxRecur(struct Node* root)
 			return root->dat;
 	}
 }
-
 // Search a key
 int iterativeSearch(struct Node* root, int key)
 {
@@ -130,8 +163,7 @@ int iterativeSearch(struct Node* root, int key)
 	}
 	return 0;
 }
-
-// Depth of a tree is number of edges from the Root Node
+// Calculates maximum depth
 int maxDepth(struct Node* root)
 {
 	int leftDepth  = 0;
@@ -145,18 +177,25 @@ int maxDepth(struct Node* root)
 		else return (rightDepth + 1);
 	}
 }
-
-// Driver Function
 int main(void)
 {
 	struct Node* root = NULL;
 	int key;
-	insertNode(&root, 10);
-	insertNode(&root, 5);
-	insertNode(&root, 15);
-	insertNode(&root, 18);
-	insertNode(&root, 25);
-	insertNode(&root, 8);
+
+	insertNodeRecur(&root, 10);
+	insertNodeRecur(&root, 5);
+	insertNodeRecur(&root, 15);
+	insertNodeRecur(&root, 18);
+	insertNodeRecur(&root, 25);
+	insertNodeRecur(&root, 8);
+
+	
+	/*insertNodeIter(&root, 10);
+	insertNodeIter(&root, 5);
+	insertNodeIter(&root, 15);
+	insertNodeIter(&root, 18);
+	insertNodeIter(&root, 25);
+	insertNodeIter(&root, 8);*/
 
 	printf("\n\nSize of the tree : %d\n\n", getSize(root));
 
