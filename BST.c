@@ -1,9 +1,16 @@
-// Size of a tree
-// Traversals - Inorder, Preorder, Postorder
-// Minimum value, Maximum Value of a BST
-// Search an element in a BST
-// Maximum depth of a BST
-
+/* C Program to demonstrate a Binary Search Tree */
+/******************************************************/
+/***********  AUTHOR - THULASI VEGGALAM	***************/
+/******************************************************/
+/*
+Following operations covered in this program
+1. Insertion - Iteration, Recursion
+2. Size of a tree
+3. Traversals - Inorder, Preorder, Postorder
+4. Minimum value, Maximum Value of a BST - Iteration, Recursion
+5. Search an element in a BST - Iteration, Recursion
+6. Maximum Depth of a BST
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,172 +18,180 @@
 // Tree Node Structure
 struct Node
 {
-	struct Node* left;
-	int dat;
-	struct Node* right;
+ struct Node* left;
+ int dat;
+ struct Node* right;
 };
 // Creates and returns a New Node
 struct Node* newNode(int value)
 {
-	struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
-	temp->left = NULL;
-	temp->dat = value;
-	temp->right = NULL;
-	return temp;
+ struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
+ temp->left = NULL;
+ temp->dat = value;
+ temp->right = NULL;
+ return temp;
 }
 // Insertion - Iterative way
 void insertNodeIter(struct Node**root, int val)
 {
-	struct Node *newnode = newNode(val);
-	struct Node *ptr;
-	if (*root == NULL)
-		*root = newnode;
+ struct Node *newnode = newNode(val);
+ struct Node *ptr;
+ if (*root == NULL)
+  {  	
+  *root = newnode; 
+  return;
+  }
+  ptr = *root;
+  while (true)
+  {
+	if (ptr->dat > newnode->dat)
+	{
+		if (ptr->left == NULL)
+		{
+			ptr->left = newnode;					
+			break;
+		}
+		ptr = ptr->left;
+	}
 	else
 	{
-		ptr = *root;
-		while (true)
+		if (ptr->right == NULL)
 		{
-			if (ptr->dat > newnode->dat)
-			{
-				if (ptr->left == NULL)
-				{
-					ptr->left = newnode;					
-					break;
-				}
-				ptr = ptr->left;
-			}
-			else
-			{
-				if (ptr->right == NULL)
-				{
-					ptr->right = newnode;					
-					break;
-				}
-				ptr = ptr->right;
-			}
+			ptr->right = newnode;					
+			break;
 		}
+		ptr = ptr->right;
 	}
+  } /*End of while */ 
 }
 // Insertion - Recursive Way
 void insertNodeRecur(struct Node** root, int value)
 {
-	if (*root == NULL)
-	{
-		*root = newNode(value);		
-		return;
-	}
-	else if ((*root)->dat > value)
-		insertNodeRecur( (&(*root)->left), value);
-	else
-		insertNodeRecur((&(*root)->right), value);
+ if (*root == NULL)
+ {
+	*root = newNode(value);		
+	return;
+ }
+ else if ((*root)->dat > value)
+	insertNodeRecur( (&(*root)->left), value);
+ else
+	insertNodeRecur((&(*root)->right), value);
 }
 // Calculates the size of a BST and returns
 int getSize(struct Node* root)
 {
-	if (root == NULL) return 0;
-	else
-		return (getSize(root->left) + 1 + getSize(root->right));
+ if (root == NULL) return 0;
+ else
+	return (getSize(root->left) + 1 + getSize(root->right));
 }
 // left, root, right
 void InOrderTraversal(struct Node* root)
 {
-	if (root != NULL)
-	{
-		InOrderTraversal(root->left);
-		printf(" %d ", root->dat);
-		InOrderTraversal(root->right);
-	}
+ if (root != NULL)
+ {
+	InOrderTraversal(root->left);
+	printf(" %d ", root->dat);
+	InOrderTraversal(root->right);
+ }
 }
 // root, left, right
 void preOrderTraversal(struct Node* root)
 {	
-	if (root != NULL)
-	{
-		printf(" %d ", root->dat);
-		preOrderTraversal(root->left);
-		preOrderTraversal(root->right);
-	}	
+ if (root != NULL)
+{
+	printf(" %d ", root->dat);
+	preOrderTraversal(root->left);
+	preOrderTraversal(root->right);
+ }	
 }
 // left, root, right
 void PostOrderTraversal(struct Node* root)
 {	
-	if (root != NULL)
-	{
-		PostOrderTraversal(root->left);		
-		PostOrderTraversal(root->right);
-		printf(" %d ", root->dat);
-	}	
+ if (root != NULL)
+ {
+	PostOrderTraversal(root->left);		
+	PostOrderTraversal(root->right);
+	printf(" %d ", root->dat);
+ }	
 }
-// returns minimum element from the tree
+
+// returns minimum element from the tree - Iteration
 int getMin(struct Node* root)
 {
-	struct Node* temp = root;
-	if (root != NULL)
-	{
-		while (temp->left != NULL)
-			temp = temp->left;
-	}
-	return temp->dat;
+ struct Node* temp = root;
+ if (root != NULL)
+ {
+	while (temp->left != NULL)
+		temp = temp->left;
+ }
+ return temp->dat;
 }
+
+// returns minimum element from the tree - Recusrion
 int getMinRecur(struct Node* root)
 {
-	if (root != NULL)
-	{
-		if (root->right != NULL)
-			return (getMinRecur(root->right));
-		else
-			return root->dat;
-	}
+ if (root != NULL)
+ {
+  if (root->right != NULL)
+	return (getMinRecur(root->right));
+  else
+	return root->dat;
+ }
 }
-// returns maximum element from the tree
+
+// returns maximum element from the tree - Iteration
 int getMax(struct Node* root)
 {
-	struct Node* temp = root;
-	if (root != NULL)
-	{
-		while (temp->right != NULL)
-			temp = temp->right;
-	}
-	return temp->dat;
+ struct Node* temp = root;
+ if (root != NULL)
+ {
+	while (temp->right != NULL)
+		temp = temp->right;
+ }
+ return temp->dat;
 }
+
+// returns maximum element from the tree - Recursion
 int getMaxRecur(struct Node* root)
 {
-	if (root != NULL)
-	{
-		if (root->right != NULL)
-			return (getMaxRecur(root->right));
-		else
-			return root->dat;
-	}
+  if (root != NULL)
+  {
+	if (root->right != NULL)
+		return (getMaxRecur(root->right));
+	else
+		return root->dat;
+  }
 }
+
 // Search a key
 int iterativeSearch(struct Node* root, int key)
 {
-	while (root != NULL)
-	{
-		if (key > root->dat)
-			root = root->right;
-		else if (key < root->dat)
-			root = root->left;
-		else
-			return 1;
-	}
-	return 0;
+ while (root != NULL)
+ {
+	if (key > root->dat)
+		root = root->right;
+	else if (key < root->dat)
+		root = root->left;
+	else
+		return 1;
+ }
+ return 0;
 }
 // Calculates maximum depth
 int maxDepth(struct Node* root)
 {
-	int leftDepth  = 0;
-	int rightDepth = 0;
-	if (root == NULL) return 0;
-	else
-	{
-		leftDepth = maxDepth(root->left);
-		rightDepth = maxDepth(root->right);
-		if (leftDepth > rightDepth) return (leftDepth + 1);
-		else return (rightDepth + 1);
-	}
+  int leftDepth  = 0;
+  int rightDepth = 0;
+  if (root == NULL) return 0;
+  else
+  {
+	leftDepth = maxDepth(root->left);
+	rightDepth = maxDepth(root->right);
+	if (leftDepth > rightDepth) return (leftDepth + 1);
+	else return (rightDepth + 1);
+  }
 }
+/* Driver Function */
 int main(void)
 {
 	struct Node* root = NULL;
